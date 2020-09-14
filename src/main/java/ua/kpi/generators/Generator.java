@@ -3,5 +3,10 @@ package ua.kpi.generators;
 import java.math.BigInteger;
 
 public interface Generator {
-    BigInteger generate();
+
+    /**
+     * @param length length of generated sequence in bits
+     * @return generated sequence
+     */
+    BigInteger generate(int length);
 }
