@@ -17,6 +17,10 @@ public class LFSRLong extends LFSR<Long> {
         return Long.bitCount(state & a) & 1;
     }
 
+    public int pop() {
+        return (int) (state & 1);
+    }
+
     public int shift() {
         int popped = (int) (state & 1);
         state = (state >> 1) + ((long) nextBit() << (n - 1));
@@ -25,5 +29,9 @@ public class LFSRLong extends LFSR<Long> {
 
     public long getState() {
         return state;
+    }
+
+    public void setState(long state) {
+        this.state = state;
     }
 }
