@@ -23,11 +23,12 @@ public class Geffe implements Generator {
         L2.setState((Math.abs(random.nextLong()) + 1) % L2.getN());
         L3.setState((Math.abs(random.nextLong()) + 1) % L3.getN());
 
-        return new BigInteger(
-                IntStream.range(0, length).boxed()
-                        .map(x -> ((L3.pop() & L1.shift()) ^ ((L3.shift() + 1) & L2.shift())))
-                        .map(Object::toString)
-                        .collect(Collectors.joining("")), 2);
+        //generating sequence
+        BigInteger res = BigInteger.ZERO;
+        for (int i = 0; i < length; i++) {
+            res = ((L3.pop() & L1.shift()) ^ ((L3.shift() + 1) & L2.shift())) == 1 ? res.setBit(i) : res;
+        }
+        return res;
 
     }
 }
