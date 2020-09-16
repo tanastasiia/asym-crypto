@@ -1,7 +1,7 @@
 package ua.kpi;
 
 /**
- * Hello world!
+ * Hello java!
  */
 public class App {
     public static void main(String[] args) {
