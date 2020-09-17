@@ -12,17 +12,28 @@ public class LFSR {
         this.a = a;
     }
 
-    //generate bit
+    /**
+     * @param state current state
+     * @return generated bot
+     */
     public int pop(long state) {
         return (int) (1 & state);
     }
 
-    private int nextBit(long state) {
-        return Long.bitCount(state & a) & 1;
-    }
-
+    /**
+     * @param state current state
+     * @return next state
+     */
     public long nextState(long state) {
         return (state >> 1) + ((long) nextBit(state) << (n - 1));
+    }
+
+    /**
+     * @param state current state
+     * @return bit for the next state
+     */
+    private int nextBit(long state) {
+        return Long.bitCount(state & a) & 1;
     }
 
     public int getN() {

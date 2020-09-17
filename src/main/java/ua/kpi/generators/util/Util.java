@@ -19,6 +19,7 @@ public class Util {
         }
     }
 
+    //не обращай пока внимания
     public static long random(long mask, long seed) {
         while (true) {
             long num = new Random(seed).nextLong() & mask;
@@ -28,6 +29,11 @@ public class Util {
         }
     }
 
+    /**
+     * @param number number to make string from
+     * @param length length of string that must be
+     * @return generated string from number: for example number=3, length=5; 3 = 101 in binary => result is string "00101"
+     */
     public static String makeBinaryString(long number, int length) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length - Long.toString(number, 2).length(); i++) {

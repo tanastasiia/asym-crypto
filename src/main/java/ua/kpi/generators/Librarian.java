@@ -5,7 +5,7 @@ import java.math.BigInteger;
 public class Librarian implements Generator {
 
     @Override
-    public String generate(int length) {
+    public String generate(int bitLength) {
         return null;
     }
 }

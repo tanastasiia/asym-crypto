@@ -10,7 +10,7 @@ public class Geffe implements Generator {
     private final LFSR L3 = new LFSR(10, Long.parseLong("1001"));
 
     @Override
-    public String generate(int length) {
+    public String generate(int bitLength) {
 
         //setting random initial states
         long state1 = Util.random((1L << L1.getN()) - 1);
@@ -19,7 +19,8 @@ public class Geffe implements Generator {
 
         //generating sequence
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < bitLength; i++) {
+
             sb.append((L3.pop(state3) & L1.pop(state1)) ^ ((L3.pop(state3) + 1) & L2.pop(state2)));
             state1 = L1.nextState(state1);
             state2 = L2.nextState(state2);
