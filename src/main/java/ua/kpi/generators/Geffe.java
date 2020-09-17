@@ -1,34 +1,31 @@
 package ua.kpi.generators;
 
 import ua.kpi.generators.lfsr.LFSR;
-import ua.kpi.generators.lfsr.impl.LFSRLong;
-
-import java.math.BigInteger;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import ua.kpi.generators.util.RandomNum;
 
 public class Geffe implements Generator {
 
-    private final LFSRLong L1 = new LFSRLong(11, Long.parseLong("101"), 1);
-    private final LFSRLong L2 = new LFSRLong(9, Long.parseLong("11011"), 1);
-    private final LFSRLong L3 = new LFSRLong(10, Long.parseLong("1001"), 1);
+    private final LFSR L1 = new LFSR(11, Long.parseLong("101"));
+    private final LFSR L2 = new LFSR(9, Long.parseLong("11011"));
+    private final LFSR L3 = new LFSR(10, Long.parseLong("1001"));
 
     @Override
-    public BigInteger generate(int length) {
+    public String generate(int length) {
 
         //setting random initial states
-        Random random = new Random();
-        L1.setState((Math.abs(random.nextLong()) + 1) % L1.getN());
-        L2.setState((Math.abs(random.nextLong()) + 1) % L2.getN());
-        L3.setState((Math.abs(random.nextLong()) + 1) % L3.getN());
+        long state1 = RandomNum.random(1L<<L1.getN()-1);
+        long state2 = RandomNum.random(1L<<L2.getN()-1);
+        long state3 = RandomNum.random(1L<<L3.getN()-1);
 
         //generating sequence
-        BigInteger res = BigInteger.ZERO;
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            res = ((L3.pop() & L1.shift()) ^ ((L3.shift() + 1) & L2.shift())) == 1 ? res.setBit(i) : res;
+            sb.append((L3.pop(state3) & L1.pop(state1)) ^ ((L3.pop(state3) + 1) & L2.pop(state2)));
+            state1 = L1.nextState(state1);
+            state2 = L2.nextState(state2);
+            state3 = L3.nextState(state3);
         }
-        return res;
+        return sb.toString();
 
     }
 }
