@@ -8,5 +8,5 @@ public interface Generator {
      * @param length length of generated sequence in bits
      * @return generated sequence
      */
-    BigInteger generate(int length);
+    String generate(int length);
 }
