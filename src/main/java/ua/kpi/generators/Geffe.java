@@ -1,7 +1,7 @@
 package ua.kpi.generators;
 
 import ua.kpi.generators.lfsr.LFSR;
-import ua.kpi.generators.util.RandomNum;
+import ua.kpi.generators.util.Util;
 
 public class Geffe implements Generator {
 
@@ -13,9 +13,9 @@ public class Geffe implements Generator {
     public String generate(int length) {
 
         //setting random initial states
-        long state1 = RandomNum.random(1L<<L1.getN()-1);
-        long state2 = RandomNum.random(1L<<L2.getN()-1);
-        long state3 = RandomNum.random(1L<<L3.getN()-1);
+        long state1 = Util.random((1L << L1.getN()) - 1);
+        long state2 = Util.random((1L << L2.getN()) - 1);
+        long state3 = Util.random((1L << L3.getN()) - 1);
 
         //generating sequence
         StringBuilder sb = new StringBuilder();

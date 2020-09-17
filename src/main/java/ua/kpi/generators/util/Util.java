@@ -2,7 +2,8 @@ package ua.kpi.generators.util;
 
 import java.util.Random;
 
-public class RandomNum {
+public class Util {
+
     private final static Random random = new Random();
 
     /**
@@ -25,5 +26,13 @@ public class RandomNum {
                 return num;
             }
         }
+    }
+
+    public static String makeBinaryString(long number, int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length - Long.toString(number, 2).length(); i++) {
+            sb.append("0");
+        }
+        return length == 0 ? sb.toString() : sb.append(Long.toString(number, 2)).toString();
     }
 }
