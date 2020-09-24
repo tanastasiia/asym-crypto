@@ -20,7 +20,6 @@ public class Geffe implements Generator {
         //generating sequence
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < bitLength; i++) {
-
             sb.append((L3.pop(state3) & L1.pop(state1)) ^ ((L3.pop(state3) + 1) & L2.pop(state2)));
             state1 = L1.nextState(state1);
             state2 = L2.nextState(state2);

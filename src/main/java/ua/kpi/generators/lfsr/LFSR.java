@@ -4,7 +4,13 @@ import java.math.BigInteger;
 
 public class LFSR {
 
+    /**
+     * size of the register
+     */
     private final int n;
+    /**
+     * characteristic polynomial coefficients
+     */
     private final long a;
 
     public LFSR(int n, long a) {
@@ -14,7 +20,7 @@ public class LFSR {
 
     /**
      * @param state current state
-     * @return generated bot
+     * @return generated bit
      */
     public int pop(long state) {
         return (int) (1 & state);

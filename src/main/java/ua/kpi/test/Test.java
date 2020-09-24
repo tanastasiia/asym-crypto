@@ -4,17 +4,17 @@ import java.math.BigInteger;
 
 public class Test {
 
-    public boolean testUniformDistribution(BigInteger seq) {
+    public boolean testUniformDistribution(String seq) {
         //TODO
         throw new UnsupportedOperationException();
     }
 
-    public boolean testIndependence(BigInteger seq) {
+    public boolean testIndependence(String seq) {
         //TODO
         throw new UnsupportedOperationException();
     }
 
-    public boolean testUniformity(BigInteger seq) {
+    public boolean testUniformity(String seq) {
         //TODO
         throw new UnsupportedOperationException();
     }
