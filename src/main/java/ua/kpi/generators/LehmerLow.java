@@ -15,8 +15,8 @@ public class LehmerLow extends Lehmer {
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {
-            x = (a * x + c) & maskM;
             bytes[i] = (int) ((x & mask8lowBits));
+            x = (a * x + c) & maskM;
         }
         return bytes;
 

@@ -4,14 +4,17 @@ import org.junit.Test;
 import ua.kpi.generators.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class GeneratorsTest {
 
+
+
     private void testGenerator(Generator gen) {
-        int length = 200_000;
+        int length = 200;
         int[] bytes = gen.generate(length);
         System.out.println(Arrays.toString(bytes));
         assertEquals(length, bytes.length);
