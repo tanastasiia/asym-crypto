@@ -1,10 +1,11 @@
 package ua.kpi.generators.util;
 
+import java.math.BigInteger;
 import java.util.Random;
 
 public class Util {
 
-    private final static Random random = new Random();
+    public final static Random random = new Random();
 
     /**
      * @param mask - max generated number
@@ -19,11 +20,10 @@ public class Util {
         }
     }
 
-    //не обращай пока внимания
-    public static long random(long mask, long seed) {
+    public static BigInteger randomBigInteger(BigInteger min, BigInteger max) {
         while (true) {
-            long num = new Random(seed).nextLong() & mask;
-            if (num != 0) {
+            BigInteger num = new BigInteger(max.bitLength(), random).mod(max);
+            if (num.compareTo(min)>=0) {
                 return num;
             }
         }
@@ -40,5 +40,13 @@ public class Util {
             sb.append("0");
         }
         return length == 0 ? sb.toString() : sb.append(Long.toString(number, 2)).toString();
+    }
+
+    public static String makeBinaryString(byte number, int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length - Long.toString(number, 2).length(); i++) {
+            sb.append("0");
+        }
+        return length == 0 ? sb.toString() : sb.append(Integer.toBinaryString(Byte.toUnsignedInt(number))).toString();
     }
 }

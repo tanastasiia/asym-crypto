@@ -1,10 +1,12 @@
 package ua.kpi.generators;
 
+import java.util.List;
+
 public interface Generator {
 
     /**
-     * @param length length of generated sequence in bits
+     * @param byteLength length of generated sequence in bytes
      * @return generated sequence
      */
-    String generate(int length);
+    int[] generate(int byteLength);
 }

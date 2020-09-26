@@ -2,21 +2,19 @@ package ua.kpi.generators;
 
 import ua.kpi.generators.util.Util;
 
-public class LehmerHigh extends Lehmer {
+import java.math.BigInteger;
+import java.util.Random;
 
-    private final long mask8highBits = ((1L << 32) - 1) - ((1L << 24) - 1);
-
+public class JavaRand implements Generator {
     @Override
     public int[] generate(int byteLength) {
 
-        long x = Util.random(maskM);
+        int byteMask = (1 << 8) - 1;
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {
-            x = (a * x + c) & maskM;
-            bytes[i] = (int) ((x & mask8highBits) >> 24);
+            bytes[i] = (int) Util.random(byteMask);
         }
         return bytes;
-
     }
 }
