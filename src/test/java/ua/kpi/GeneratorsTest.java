@@ -13,7 +13,7 @@ public class GeneratorsTest {
     private void testGenerator(Generator gen) {
         int length = 200_000;
         int[] bytes = gen.generate(length);
-      //  System.out.println(Arrays.toString(bytes));
+        System.out.println(Arrays.toString(bytes));
         assertEquals(length, bytes.length);
     }
 
@@ -27,7 +27,8 @@ public class GeneratorsTest {
     //2
     @Test
     public void testLehmerLow() {
-        //TODO
+        LehmerLow lehmerLow = new LehmerLow();
+        testGenerator(lehmerLow);
     }
 
     //3
