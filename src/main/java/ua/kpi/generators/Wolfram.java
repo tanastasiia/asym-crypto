@@ -15,7 +15,7 @@ public class Wolfram implements Generator {
         for (int i = 0; i < byteLength; i++) {
             int bytei = 0;
             for (int j = 0; j < 8; j++) {
-                bytei += (int)(r & 1) << j;
+                bytei += (int) (r & 1) << j;
                 r = cyclicShift32BitLeft(r) ^ (r | cyclicShift32BitRight(r));
             }
             bytes[i] = bytei;

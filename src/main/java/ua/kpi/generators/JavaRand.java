@@ -9,7 +9,7 @@ public class JavaRand implements Generator {
     @Override
     public int[] generate(int byteLength) {
 
-        int byteMask = (1<<8)-1;
+        int byteMask = (1 << 8) - 1;
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {

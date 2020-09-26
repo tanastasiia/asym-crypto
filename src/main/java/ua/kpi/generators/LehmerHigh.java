@@ -14,7 +14,7 @@ public class LehmerHigh extends Lehmer {
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {
             x = (a * x + c) & maskM;
-            bytes[i] =(int) ((x & mask8highBits) >> 24);
+            bytes[i] = (int) ((x & mask8highBits) >> 24);
         }
         return bytes;
 
