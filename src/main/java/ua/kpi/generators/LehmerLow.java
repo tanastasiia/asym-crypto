@@ -16,7 +16,7 @@ public class LehmerLow extends Lehmer {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < byteLength; i++) {
             x = (a * x + c) & maskM;
-            sb.append(Util.makeBinaryString(x & 0xFF , 8));
+            sb.append(Util.makeBinaryString(x & mask8lowBits, 8));
             //sb.append(Util.makeBinaryString((x & mask8lowBits) >> 8 , 8));
         }
         return sb.substring(0, bitLength);
