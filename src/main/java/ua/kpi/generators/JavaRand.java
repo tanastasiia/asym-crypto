@@ -7,14 +7,14 @@ import java.util.Random;
 
 public class JavaRand implements Generator {
     @Override
-    public String generate(int bitLength) {
-        String num = (new BigInteger(bitLength, Util.random)).toString(2);
-        int numLen = num.length();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bitLength - numLen; i++) {
-            sb.append("0");
+    public int[] generate(int byteLength) {
+
+        int byteMask = (1 << 8) - 1;
+
+        int[] bytes = new int[byteLength];
+        for (int i = 0; i < byteLength; i++) {
+            bytes[i] = (int) Util.random(byteMask);
         }
-        sb.append(num);
-        return sb.toString();
+        return bytes;
     }
 }
