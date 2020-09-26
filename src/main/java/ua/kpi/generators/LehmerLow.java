@@ -7,7 +7,7 @@ public class LehmerLow extends Lehmer {
     private final long mask8lowBits = (1L << 8) - 1;
 
     @Override
-    public String generate(int bitLength) {
+    public int[] generate(int bitLength) {
         return null;
     }
 }

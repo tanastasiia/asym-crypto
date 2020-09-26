@@ -3,16 +3,18 @@ package ua.kpi;
 import org.junit.Test;
 import ua.kpi.generators.*;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class GeneratorsTest {
 
     private void testGenerator(Generator gen) {
-        int length = 1_000_000;
-        String seq = gen.generate(length);
-        System.out.println(seq.substring(0, 150));
-        assertEquals(length, seq.length());
+        int length = 200_000;
+        int[] bytes = gen.generate(length);
+      //  System.out.println(Arrays.toString(bytes));
+        assertEquals(length, bytes.length);
     }
 
     //1

@@ -7,16 +7,20 @@ public class Wolfram implements Generator {
     private final long mask32bit = (1L << 32) - 1;
 
     @Override
-    public String generate(int bitLength) {
+    public int[] generate(int byteLength) {
 
         long r = Util.random(mask32bit);
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bitLength; i++) {
-            sb.append(r & 1);
-            r = cyclicShift32BitLeft(r) ^ (r | cyclicShift32BitRight(r));
+        int[] bytes = new int[byteLength];
+        for (int i = 0; i < byteLength; i++) {
+            int bytei = 0;
+            for (int j = 0; j < 8; j++) {
+                bytei += (int)(r & 1) << j;
+                r = cyclicShift32BitLeft(r) ^ (r | cyclicShift32BitRight(r));
+            }
+            bytes[i] = bytei;
         }
-        return sb.toString();
+        return bytes;
 
     }
 

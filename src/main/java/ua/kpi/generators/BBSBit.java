@@ -3,20 +3,25 @@ package ua.kpi.generators;
 import ua.kpi.generators.util.Util;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BBSBit extends BBS {
 
     @Override
-    public String generate(int bitLength) {
+    public int[] generate(int byteLength) {
         BigInteger r = Util.randomBigInteger(BigInteger.valueOf(2), n);
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bitLength; i++) {
-            r = r.modPow(BigInteger.valueOf(2), n);
-            sb.append(r.testBit(0) ? "1" : "0");
-
+        int[] bytes = new int[byteLength];
+        for (int i = 0; i < byteLength; i++) {
+            int bytei = 0;
+            for (int j = 0; j < 8; j++) {
+                r = r.modPow(BigInteger.valueOf(2), n);
+                bytei += (r.testBit(0) ? 1 : 0) << j;
+            }
+            bytes[i] = bytei;
         }
-        return sb.toString();
+        return bytes;
 
     }
 }
