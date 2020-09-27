@@ -47,9 +47,9 @@ public class TestsResultsWriter {
 
                 int[] bytes = gen.generate(bytesLen);
 
-                double test1Res = tests.testFrequencyChiSquared(bytes);
-                double test2Res = tests.testSerialChiSquared(bytes);
-                double test3Res = tests.testGapChiSquared(bytes);
+                double test1Res = tests.chiSquaredFrequencyTest(bytes);
+                double test2Res = tests.chiSquaredSerialTest(bytes);
+                double test3Res = tests.chiSquaredGapTest(bytes);
 
                 String[] testsResults = new String[alpha_quantiles.length * 3 + 4];
                 testsResults[0] = gen.getName();

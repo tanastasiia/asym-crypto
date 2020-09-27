@@ -16,7 +16,7 @@ public class BytesSequenceTestsTest {
             new L20(), new L89(), new Geffe(), new Librarian(), new Wolfram(), new BMBit(), new BMByte(), new BBSBit(), new BBSByte());
 
     public void performTest(BiFunction<int[], Double, Boolean> test, List<Generator> generators) {
-        int bytesLen = 1_000;
+        int bytesLen = 100_000;
         double[] alphas = {0.01, 0.05, 0.1};
         double[] alpha_quantiles = {2.3263478740408416, 1.6448536269514724, 1.2815515655446008};
 
@@ -29,22 +29,43 @@ public class BytesSequenceTestsTest {
         }
     }
 
+    public boolean testFrequency(int[] bytes, double alpha_quantile) {
+        double chiSquared = bytesSequenceTests.chiSquaredFrequencyTest(bytes);
+        double chiSquaredH0 = bytesSequenceTests.chiSquared1Alpha.apply(alpha_quantile);
+        System.out.println("chiSquared:  " + String.format("%.2f", chiSquared) + "  " + String.format("%.2f", chiSquaredH0));
+        return chiSquared <= chiSquaredH0;
+    }
+
+    public boolean testSerial(int[] bytes, double alpha_quantile) {
+        double chiSquared = bytesSequenceTests.chiSquaredSerialTest(bytes);
+        double chiSquaredH0 = bytesSequenceTests.chiSquared2Alpha.apply(alpha_quantile);
+        System.out.println("chiSquared:  " + String.format("%.2f", chiSquared) + "  " + String.format("%.2f", chiSquaredH0));
+        return chiSquared <= chiSquaredH0;
+    }
+
+    public boolean testGap(int[] bytes, double alpha_quantile) {
+        double chiSquared = bytesSequenceTests.chiSquaredGapTest(bytes);
+        double chiSquaredH0 = bytesSequenceTests.chiSquared3Alpha.apply(alpha_quantile);
+        System.out.println("chiSquared:  " + String.format("%.2f", chiSquared) + "  " + String.format("%.2f", chiSquaredH0));
+        return chiSquared <= chiSquaredH0;
+    }
+
     @Test
     public void testFrequencyAllAlphas() {
         System.out.println("testFrequencyAllAlphas");
-        performTest(bytesSequenceTests::testFrequency, gens);
+        performTest(this::testFrequency, gens);
     }
 
     @Test
     public void testSerialAllAlphas() {
         System.out.println("testSerialAllAlphas");
-        performTest(bytesSequenceTests::testSerial, gens);
+        performTest(this::testSerial, gens);
     }
 
     @Test
     public void testGapAllAlphas() {
         System.out.println("testGapAllAlphas");
-        performTest(bytesSequenceTests::testGap, gens);
+        performTest(this::testGap, gens);
     }
 
 
