@@ -11,7 +11,7 @@ public class LehmerLow extends Lehmer {
     @Override
     public int[] generate(int byteLength) {
 
-        long x = Util.random(maskM);
+        long x = Util.random(1, maskM);
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {

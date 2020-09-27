@@ -13,9 +13,9 @@ public class Geffe implements Generator {
     public int[] generate(int byteLength) {
 
         //setting random initial states
-        long state1 = Util.random((1L << L1.getN()) - 1);
-        long state2 = Util.random((1L << L2.getN()) - 1);
-        long state3 = Util.random((1L << L3.getN()) - 1);
+        long state1 = Util.random(1,(1L << L1.getN()) - 1);
+        long state2 = Util.random(1,(1L << L2.getN()) - 1);
+        long state3 = Util.random(1,(1L << L3.getN()) - 1);
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {

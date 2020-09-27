@@ -11,7 +11,7 @@ public class L20 implements Generator {
     public int[] generate(int byteLength) {
 
         //initial state
-        long state = Util.random((1L << L.getN()) - 1);
+        long state = Util.random(1,(1L << L.getN()) - 1);
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {

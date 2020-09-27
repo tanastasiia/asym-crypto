@@ -9,7 +9,7 @@ public class Wolfram implements Generator {
     @Override
     public int[] generate(int byteLength) {
 
-        long r = Util.random(mask32bit);
+        long r = Util.random(1, mask32bit);
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {

@@ -11,10 +11,10 @@ public class Util {
      * @param mask - max generated number
      * @return random non zero number;
      */
-    public static long random(long mask) {
+    public static long random(long min, long mask) {
         while (true) {
             long num = random.nextLong() & mask;
-            if (num != 0) {
+            if (num >= min) {
                 return num;
             }
         }

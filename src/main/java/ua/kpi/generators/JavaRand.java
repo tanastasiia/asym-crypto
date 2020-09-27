@@ -13,7 +13,7 @@ public class JavaRand implements Generator {
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {
-            bytes[i] = (int) Util.random(byteMask);
+            bytes[i] = (int) Util.random(0, byteMask);
         }
         return bytes;
     }

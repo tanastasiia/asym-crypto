@@ -16,7 +16,7 @@ public class BytesSequenceTestsTest {
             new L20(), new L89(), new Geffe(), new Librarian(), new Wolfram(), new BMBit(), new BMByte(), new BBSBit(), new BBSByte());
 
     public void performTest(BiFunction<int[], Double, Boolean> test, List<Generator> generators) {
-        int bytesLen = 100_000;
+        int bytesLen = 1_000;
         double[] alphas = {0.01, 0.05, 0.1};
         double[] alpha_quantiles = {2.3263478740408416, 1.6448536269514724, 1.2815515655446008};
 
@@ -38,7 +38,13 @@ public class BytesSequenceTestsTest {
     @Test
     public void testIndependenceAllAlphas() {
         System.out.println("testIndependenceAllAlphas");
-        performTest(bytesSequenceTests::testIndependence,gens);
+        performTest(bytesSequenceTests::testIndependence, gens);
+    }
+
+    @Test
+    public void testUniformityAllAlphas() {
+        System.out.println("testUniformityAllAlphas");
+        performTest(bytesSequenceTests::testUniformity, gens);
     }
 
 

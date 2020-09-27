@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class Librarian implements Generator {
 
-    private final String filePath = "input/book.txt";
+    private final String filePath = "files/book.txt";
 
     @Override
     public int[] generate(int byteLength) {

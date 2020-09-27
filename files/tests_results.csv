@@ -1,0 +1,13 @@
+generator,hi test1 of sequence,hi test1 a=0.01,hi test1 a=0.05,hi test1 a=0.1,hi test2 of sequence,hi test2 a=0.01,hi test2 a=0.05,hi test2 a=0.1,hi test3 of sequence,hi test3 a=0.01,hi test3 a=0.05,hi test3 a=0.1
+JavaRand,263.56,307.54 (passed),292.15 (passed),283.94 (passed),64106.93,65863.94 (passed),65618.17 (passed),65487.16 (passed),4081.45,4290.15 (passed),4228.58 (passed),4195.77 (passed)
+LehmerLow,0.15,307.54 (passed),292.15 (passed),283.94 (passed),6350000.00,65863.94 (not passed),65618.17 (not passed),65487.16 (not passed),4.18,4290.15 (not passed),4228.58 (not passed),4195.77 (not passed)
+LehmerHigh,112.02,307.54 (passed),292.15 (passed),283.94 (passed),63685.81,65863.94 (passed),65618.17 (passed),65487.16 (passed),4022.11,4290.15 (passed),4228.58 (passed),4195.77 (passed)
+L20,227.70,307.54 (passed),292.15 (passed),283.94 (passed),61525.88,65863.94 (passed),65618.17 (passed),65487.16 (passed),4171.75,4290.15 (passed),4228.58 (passed),4195.77 (passed)
+L89,259.52,307.54 (passed),292.15 (passed),283.94 (passed),64965.00,65863.94 (passed),65618.17 (passed),65487.16 (passed),4121.90,4290.15 (passed),4228.58 (passed),4195.77 (passed)
+Geffe,504775.15,307.54 (not passed),292.15 (not passed),283.94 (not passed),128288.28,65863.94 (not passed),65618.17 (not passed),65487.16 (not passed),1514.91,4290.15 (not passed),4228.58 (not passed),4195.77 (not passed)
+Librarian,2826688.96,307.54 (not passed),292.15 (not passed),283.94 (not passed),502653.81,65863.94 (not passed),65618.17 (not passed),65487.16 (not passed),5333.82,4290.15 (not passed),4228.58 (not passed),4195.77 (not passed)
+Wolfram,262.00,307.54 (passed),292.15 (passed),283.94 (passed),65113.89,65863.94 (passed),65618.17 (passed),65487.16 (passed),4002.11,4290.15 (passed),4228.58 (passed),4195.77 (passed)
+BMBit,275.10,307.54 (passed),292.15 (passed),283.94 (passed),64439.87,65863.94 (passed),65618.17 (passed),65487.16 (passed),4088.34,4290.15 (passed),4228.58 (passed),4195.77 (passed)
+BMByte,214.24,307.54 (passed),292.15 (passed),283.94 (passed),64658.57,65863.94 (passed),65618.17 (passed),65487.16 (passed),3984.68,4290.15 (passed),4228.58 (passed),4195.77 (passed)
+BBSBit,257.25,307.54 (passed),292.15 (passed),283.94 (passed),65164.62,65863.94 (passed),65618.17 (passed),65487.16 (passed),4127.02,4290.15 (passed),4228.58 (passed),4195.77 (passed)
+BBSByte,269.99,307.54 (passed),292.15 (passed),283.94 (passed),65226.11,65863.94 (passed),65618.17 (passed),65487.16 (passed),3887.76,4290.15 (passed),4228.58 (passed),4195.77 (passed)
