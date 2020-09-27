@@ -9,7 +9,6 @@ public class BMByte extends BM {
     @Override
     public int[] generate(int byteLength) {
 
-
         BigInteger t = Util.randomBigInteger(BigInteger.ZERO, p);
         BigInteger byte256 = BigInteger.valueOf(256);
 

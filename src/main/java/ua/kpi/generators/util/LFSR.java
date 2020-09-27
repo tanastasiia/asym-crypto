@@ -22,7 +22,7 @@ public class LFSR {
      * @param state current state
      * @return generated bit
      */
-    public int pop(long state) {
+    public int getBit(long state) {
         return (int) (1 & state);
     }
 

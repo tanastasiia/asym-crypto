@@ -5,11 +5,10 @@ import ua.kpi.generators.util.Util;
 
 public class LehmerHigh extends Lehmer {
 
-    private final long mask8highBits = ((1L << 32) - 1) - ((1L << 24) - 1);
-
     @Override
     public int[] generate(int byteLength) {
 
+        long mask8highBits = ((1L << 32) - 1) - ((1L << 24) - 1);
         long x = Util.random(1, maskM);
 
         int[] bytes = new int[byteLength];

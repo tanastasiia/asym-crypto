@@ -7,21 +7,14 @@ import java.util.stream.Collectors;
 
 public class BytesSequenceTests {
 
-    private int r = 18;
-    private final BiFunction<Double, Double, Double> hiSquaredAlpha = (z, l) -> Math.sqrt(2 * l) * z + l;
+    private final int r = 42;
+    private final BiFunction<Double, Double, Double> chiSquaredAlpha = (z, l) -> Math.sqrt(2 * l) * z + l;
 
-    public Function<Double, Double> hiSquared1Alpha = (z) -> hiSquaredAlpha.apply(z, 255d);
-    public Function<Double, Double> hiSquared2Alpha = (z) -> hiSquaredAlpha.apply(z, 255d * 255d);
-    public Function<Double, Double> hiSquared3Alpha = (z) -> hiSquaredAlpha.apply(z, 255d * (r - 1));
+    public Function<Double, Double> chiSquared1Alpha = (z) -> chiSquaredAlpha.apply(z, 255d);
+    public Function<Double, Double> chiSquared2Alpha = (z) -> chiSquaredAlpha.apply(z, 255d * 255d);
+    public Function<Double, Double> chiSquared3Alpha = (z) -> chiSquaredAlpha.apply(z, 255d * (r - 1));
 
-    public BytesSequenceTests(int r){
-        this.r = r;
-    }
-    public BytesSequenceTests(){
-
-    }
-
-    public double testUniformDistributionHiSquared(int[] bytes) {
+    public double testFrequencyChiSquared(int[] bytes) {
 
         double n = bytes.length / 256d;
 
@@ -32,7 +25,7 @@ public class BytesSequenceTests {
                 .reduce(Double::sum).orElse(0d);
     }
 
-    public double testIndependenceHiSquared(int[] bytes) {
+    public double testSerialChiSquared(int[] bytes) {
 
         int n = bytes.length / 2;
 
@@ -46,18 +39,18 @@ public class BytesSequenceTests {
             secondFreq[bytes[2 * i]]++;
         }
 
-        double hiSquared = 0;
+        double chiSquared = 0;
         for (int i = 0; i < 256; i++) {
             for (int j = 0; j < 256; j++) {
                 if (firstFreq[i] != 0 && secondFreq[j] != 0 && pairsFreq[i][j] != 0) {
-                    hiSquared += Math.pow(pairsFreq[i][j], 2) / (firstFreq[i] * secondFreq[j]);
+                    chiSquared += Math.pow(pairsFreq[i][j], 2) / (firstFreq[i] * secondFreq[j]);
                 }
             }
         }
-        return n * (hiSquared - 1);
+        return n * (chiSquared - 1);
     }
 
-    public double testUniformityHiSquared(int[] bytes) {
+    public double testGapChiSquared(int[] bytes) {
 
         int numOfIntervals = bytes.length / r;
         int n = numOfIntervals * r;
@@ -70,35 +63,35 @@ public class BytesSequenceTests {
             bytesFreq[bytes[i]]++;
         }
 
-        double hiSquared = 0;
+        double chiSquared = 0;
         for (int i = 0; i < 256; i++) {
             for (int j = 0; j < r; j++) {
                 if (bytesFreq[i] != 0 && intervalByteFreq[i][j] != 0) {
-                    hiSquared += Math.pow(intervalByteFreq[i][j], 2) / (numOfIntervals * bytesFreq[i]);
+                    chiSquared += Math.pow(intervalByteFreq[i][j], 2) / (numOfIntervals * bytesFreq[i]);
                 }
             }
         }
-        return n * (hiSquared - 1);
+        return n * (chiSquared - 1);
     }
 
-    public boolean testUniformDistribution(int[] bytes, double alpha_quantile) {
-        double hiSquared = testUniformDistributionHiSquared(bytes);
-        double hiSquaredH0 = hiSquared1Alpha.apply(alpha_quantile);
-        System.out.println("hiSquared:  " + String.format("%.2f", hiSquared) + "  " + String.format("%.2f", hiSquaredH0));
-        return hiSquared <= hiSquaredH0;
+    public boolean testFrequency(int[] bytes, double alpha_quantile) {
+        double chiSquared = testFrequencyChiSquared(bytes);
+        double chiSquaredH0 = chiSquared1Alpha.apply(alpha_quantile);
+        System.out.println("chiSquared:  " + String.format("%.2f", chiSquared) + "  " + String.format("%.2f", chiSquaredH0));
+        return chiSquared <= chiSquaredH0;
     }
 
-    public boolean testIndependence(int[] bytes, double alpha_quantile) {
-        double hiSquared = testIndependenceHiSquared(bytes);
-        double hiSquaredH0 = hiSquared2Alpha.apply(alpha_quantile);
-        System.out.println("hiSquared:  " + String.format("%.2f", hiSquared) + "  " + String.format("%.2f", hiSquaredH0));
-        return hiSquared <= hiSquaredH0;
+    public boolean testSerial(int[] bytes, double alpha_quantile) {
+        double chiSquared = testSerialChiSquared(bytes);
+        double chiSquaredH0 = chiSquared2Alpha.apply(alpha_quantile);
+        System.out.println("chiSquared:  " + String.format("%.2f", chiSquared) + "  " + String.format("%.2f", chiSquaredH0));
+        return chiSquared <= chiSquaredH0;
     }
 
-    public boolean testUniformity(int[] bytes, double alpha_quantile) {
-        double hiSquared = testUniformityHiSquared(bytes);
-        double hiSquaredH0 = hiSquared3Alpha.apply(alpha_quantile);
-        System.out.println("hiSquared:  " + String.format("%.2f", hiSquared) + "  " + String.format("%.2f", hiSquaredH0));
-        return hiSquared <= hiSquaredH0;
+    public boolean testGap(int[] bytes, double alpha_quantile) {
+        double chiSquared = testGapChiSquared(bytes);
+        double chiSquaredH0 = chiSquared3Alpha.apply(alpha_quantile);
+        System.out.println("chiSquared:  " + String.format("%.2f", chiSquared) + "  " + String.format("%.2f", chiSquaredH0));
+        return chiSquared <= chiSquaredH0;
     }
 }

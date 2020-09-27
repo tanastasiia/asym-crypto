@@ -7,10 +7,6 @@ public class Util {
 
     public final static Random random = new Random();
 
-    /**
-     * @param mask - max generated number
-     * @return random non zero number;
-     */
     public static long random(long min, long mask) {
         while (true) {
             long num = random.nextLong() & mask;

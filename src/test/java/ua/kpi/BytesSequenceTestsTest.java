@@ -30,21 +30,21 @@ public class BytesSequenceTestsTest {
     }
 
     @Test
-    public void testUniformDistributionAllAlphas() {
-        System.out.println("testUniformDistributionAllAlphas");
-        performTest(bytesSequenceTests::testUniformDistribution, gens);
+    public void testFrequencyAllAlphas() {
+        System.out.println("testFrequencyAllAlphas");
+        performTest(bytesSequenceTests::testFrequency, gens);
     }
 
     @Test
-    public void testIndependenceAllAlphas() {
-        System.out.println("testIndependenceAllAlphas");
-        performTest(bytesSequenceTests::testIndependence, gens);
+    public void testSerialAllAlphas() {
+        System.out.println("testSerialAllAlphas");
+        performTest(bytesSequenceTests::testSerial, gens);
     }
 
     @Test
-    public void testUniformityAllAlphas() {
-        System.out.println("testUniformityAllAlphas");
-        performTest(bytesSequenceTests::testUniformity, gens);
+    public void testGapAllAlphas() {
+        System.out.println("testGapAllAlphas");
+        performTest(bytesSequenceTests::testGap, gens);
     }
 
 

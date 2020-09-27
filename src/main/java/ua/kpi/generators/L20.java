@@ -10,14 +10,13 @@ public class L20 implements Generator {
     @Override
     public int[] generate(int byteLength) {
 
-        //initial state
         long state = Util.random(1, (1L << L.getN()) - 1);
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {
             int bytei = 0;
             for (int j = 0; j < 8; j++) {
-                bytei += L.pop(state) << j;
+                bytei += L.getBit(state) << j;
                 state = L.nextState(state);
             }
             bytes[i] = bytei;

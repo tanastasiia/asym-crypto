@@ -14,7 +14,7 @@ import java.util.concurrent.*;
 
 public class TestsResultsWriter {
 
-    private BytesSequenceTests tests;
+    private final BytesSequenceTests tests = new BytesSequenceTests();
 
     private final List<Generator> gens = Arrays.asList(new JavaRand(), new LehmerLow(), new LehmerHigh(),
             new L20(), new L89(), new Geffe(), new Librarian(), new Wolfram(), new BMBit(), new BMByte(), new BBSBit(), new BBSByte());
@@ -27,9 +27,6 @@ public class TestsResultsWriter {
         Locale.setDefault(Locale.ENGLISH);
     }
 
-    public TestsResultsWriter(BytesSequenceTests tests){
-        this.tests = tests;
-    }
     private String isPassedString(boolean isPassed) {
         return isPassed ? " (passed)" : " (not passed)";
     }
@@ -50,9 +47,9 @@ public class TestsResultsWriter {
 
                 int[] bytes = gen.generate(bytesLen);
 
-                double test1Res = tests.testUniformDistributionHiSquared(bytes);
-                double test2Res = tests.testIndependenceHiSquared(bytes);
-                double test3Res = tests.testUniformityHiSquared(bytes);
+                double test1Res = tests.testFrequencyChiSquared(bytes);
+                double test2Res = tests.testSerialChiSquared(bytes);
+                double test3Res = tests.testGapChiSquared(bytes);
 
                 String[] testsResults = new String[alpha_quantiles.length * 3 + 4];
                 testsResults[0] = gen.getName();
@@ -61,9 +58,9 @@ public class TestsResultsWriter {
                 testsResults[9] = String.format("%.2f", test3Res);
 
                 for (int i = 0; i < alpha_quantiles.length; i++) {
-                    double hi1 = tests.hiSquared1Alpha.apply(alpha_quantiles[i]);
-                    double hi2 = tests.hiSquared2Alpha.apply(alpha_quantiles[i]);
-                    double hi3 = tests.hiSquared3Alpha.apply(alpha_quantiles[i]);
+                    double hi1 = tests.chiSquared1Alpha.apply(alpha_quantiles[i]);
+                    double hi2 = tests.chiSquared2Alpha.apply(alpha_quantiles[i]);
+                    double hi3 = tests.chiSquared3Alpha.apply(alpha_quantiles[i]);
 
                     testsResults[i + 2] = String.format("%.2f", hi1) + isPassedString(test1Res <= hi1);
                     testsResults[alpha_quantiles.length + i + 3] = String.format("%.2f", hi2) + isPassedString(test2Res <= hi2);

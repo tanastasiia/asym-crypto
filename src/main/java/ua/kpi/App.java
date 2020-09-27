@@ -15,7 +15,7 @@ public class App {
         System.out.println("r = " + r);
         long time = System.nanoTime();
 
-        new TestsResultsWriter(new BytesSequenceTests(r)).perform(bytesLen);
+        new TestsResultsWriter().perform(bytesLen);
 
         System.out.println("DONE in " + (System.nanoTime() - time) / 1000000000.0 + "sec ----------------------------------------------------------------");
         System.exit(0);
