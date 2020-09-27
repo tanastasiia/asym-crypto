@@ -1,5 +1,6 @@
 package ua.kpi.generators;
 
+import ua.kpi.generators.util.Lehmer;
 import ua.kpi.generators.util.Util;
 
 public class LehmerHigh extends Lehmer {

@@ -1,7 +1,5 @@
 package ua.kpi.generators;
 
-import java.util.List;
-
 public interface Generator {
 
     /**
@@ -10,7 +8,7 @@ public interface Generator {
      */
     int[] generate(int byteLength);
 
-    default String getName(){
+    default String getName() {
         return this.getClass().getSimpleName();
     }
 }

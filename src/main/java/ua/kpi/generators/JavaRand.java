@@ -2,9 +2,6 @@ package ua.kpi.generators;
 
 import ua.kpi.generators.util.Util;
 
-import java.math.BigInteger;
-import java.util.Random;
-
 public class JavaRand implements Generator {
     @Override
     public int[] generate(int byteLength) {

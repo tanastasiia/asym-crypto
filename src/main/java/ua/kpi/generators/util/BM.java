@@ -1,4 +1,6 @@
-package ua.kpi.generators;
+package ua.kpi.generators.util;
+
+import ua.kpi.generators.Generator;
 
 import java.math.BigInteger;
 

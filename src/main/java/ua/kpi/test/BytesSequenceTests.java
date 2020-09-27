@@ -1,27 +1,28 @@
 package ua.kpi.test;
 
-import ua.kpi.generators.*;
-
-import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BytesSequenceTests {
 
-    private int r = 17;
+    private int r = 18;
+    private final BiFunction<Double, Double, Double> hiSquaredAlpha = (z, l) -> Math.sqrt(2 * l) * z + l;
 
-    BiFunction<Double, Double, Double> hiSquaredAlpha = (z, l) -> Math.sqrt(2 * l) * z + l;
-    Function<Double, Double> hiSquared1Alpha = (z) -> hiSquaredAlpha.apply(z, 255d);
-    Function<Double, Double> hiSquared2Alpha = (z) -> hiSquaredAlpha.apply(z, 255d * 255d);
-    Function<Double, Double> hiSquared3Alpha = (z) -> hiSquaredAlpha.apply(z, 255d * (r - 1));
+    public Function<Double, Double> hiSquared1Alpha = (z) -> hiSquaredAlpha.apply(z, 255d);
+    public Function<Double, Double> hiSquared2Alpha = (z) -> hiSquaredAlpha.apply(z, 255d * 255d);
+    public Function<Double, Double> hiSquared3Alpha = (z) -> hiSquaredAlpha.apply(z, 255d * (r - 1));
+
+    public BytesSequenceTests(int r){
+        this.r = r;
+    }
+    public BytesSequenceTests(){
+
+    }
 
     public double testUniformDistributionHiSquared(int[] bytes) {
+
         double n = bytes.length / 256d;
 
         return Arrays.stream(bytes).parallel().boxed()
@@ -57,17 +58,15 @@ public class BytesSequenceTests {
     }
 
     public double testUniformityHiSquared(int[] bytes) {
-        //int r = 1 + (int) (Math.log(bytes.length) / Math.log(2));
-        double l = 255 * (r - 1);
 
-        int m2 = bytes.length / r; // # of intervals
-        int n = m2 * r; // # bytes to use
+        int numOfIntervals = bytes.length / r;
+        int n = numOfIntervals * r;
 
-        int[][] intervalByteFreq = new int[256][m2];
+        int[][] intervalByteFreq = new int[256][numOfIntervals];
         int[] bytesFreq = new int[256];
 
         for (int i = 0; i < n; i++) {
-            intervalByteFreq[bytes[i]][i / m2]++;
+            intervalByteFreq[bytes[i]][i / numOfIntervals]++;
             bytesFreq[bytes[i]]++;
         }
 
@@ -75,7 +74,7 @@ public class BytesSequenceTests {
         for (int i = 0; i < 256; i++) {
             for (int j = 0; j < r; j++) {
                 if (bytesFreq[i] != 0 && intervalByteFreq[i][j] != 0) {
-                    hiSquared += Math.pow(intervalByteFreq[i][j], 2) / (m2 * bytesFreq[i]);
+                    hiSquared += Math.pow(intervalByteFreq[i][j], 2) / (numOfIntervals * bytesFreq[i]);
                 }
             }
         }

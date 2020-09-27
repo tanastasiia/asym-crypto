@@ -1,4 +1,4 @@
-package ua.kpi.generators.lfsr;
+package ua.kpi.generators.util;
 
 import java.math.BigInteger;
 
@@ -17,18 +17,28 @@ public class LFSRBigInteger {
         this.a = a;
     }
 
+    /**
+     * @param state current state
+     * @return generated bit
+     */
     public int pop(BigInteger state) {
         return state.testBit(0) ? 1 : 0;
     }
 
+    /**
+     * @param state current state
+     * @return next state
+     */
     public BigInteger nextState(BigInteger state) {
-        return state.shiftRight(1).add(nextBit(state) == 1? BigInteger.ZERO.setBit(n-1) : BigInteger.ZERO);
-        // return (state >> 1) + ((long) nextBit(state) << (n - 1));
+        return state.shiftRight(1).add(nextBit(state) == 1 ? BigInteger.ZERO.setBit(n - 1) : BigInteger.ZERO);
     }
 
+    /**
+     * @param state current state
+     * @return bit for the next state
+     */
     private int nextBit(BigInteger state) {
         return state.and(a).bitCount() & 1;
-        //return Long.bitCount(state & a) & 1;
     }
 
     public int getN() {

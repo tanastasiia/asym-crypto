@@ -1,8 +1,7 @@
 package ua.kpi.generators;
 
+import ua.kpi.generators.util.Lehmer;
 import ua.kpi.generators.util.Util;
-
-import java.math.BigInteger;
 
 public class LehmerLow extends Lehmer {
 

@@ -2,15 +2,14 @@ package ua.kpi;
 
 import org.junit.Test;
 import ua.kpi.generators.*;
+import ua.kpi.generators.util.BBS;
+import ua.kpi.generators.util.BM;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class GeneratorsTest {
-
 
 
     private void testGenerator(Generator gen) {

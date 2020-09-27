@@ -1,10 +1,9 @@
 package ua.kpi.generators;
 
+import ua.kpi.generators.util.BBS;
 import ua.kpi.generators.util.Util;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BBSBit extends BBS {
 

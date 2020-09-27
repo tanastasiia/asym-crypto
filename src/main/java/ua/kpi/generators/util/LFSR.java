@@ -1,4 +1,4 @@
-package ua.kpi.generators.lfsr;
+package ua.kpi.generators.util;
 
 import java.math.BigInteger;
 
