@@ -1,4 +1,4 @@
-package ua.kpi.generators.util;
+package ua.kpi.generators;
 
 import ua.kpi.generators.Generator;
 

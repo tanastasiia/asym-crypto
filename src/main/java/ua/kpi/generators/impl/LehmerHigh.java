@@ -1,19 +1,19 @@
-package ua.kpi.generators;
+package ua.kpi.generators.impl;
 
-import ua.kpi.generators.util.Lehmer;
+import ua.kpi.generators.Lehmer;
 import ua.kpi.generators.util.Util;
 
-public class LehmerLow extends Lehmer {
+public class LehmerHigh extends Lehmer {
 
     @Override
     public int[] generate(int byteLength) {
 
-        long mask8lowBits = 0b11111111; //(1L << 8) - 1;
+        long mask8highBits = ((1L << 32) - 1) - ((1L << 24) - 1);
         long x = Util.random(1, maskM);
 
         int[] bytes = new int[byteLength];
         for (int i = 0; i < byteLength; i++) {
-            bytes[i] = (int) ((x & mask8lowBits));
+            bytes[i] = (int) ((x & mask8highBits) >> 24);
             x = (a * x + c) & maskM;
         }
         return bytes;

@@ -1,5 +1,6 @@
-package ua.kpi.generators;
+package ua.kpi.generators.impl;
 
+import ua.kpi.generators.Generator;
 import ua.kpi.generators.util.Util;
 
 public class JavaRand implements Generator {

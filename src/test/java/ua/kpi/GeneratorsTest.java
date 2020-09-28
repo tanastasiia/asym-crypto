@@ -2,8 +2,9 @@ package ua.kpi;
 
 import org.junit.Test;
 import ua.kpi.generators.*;
-import ua.kpi.generators.util.BBS;
-import ua.kpi.generators.util.BM;
+import ua.kpi.generators.impl.*;
+import ua.kpi.generators.BBS;
+import ua.kpi.generators.BM;
 
 import java.util.Arrays;
 

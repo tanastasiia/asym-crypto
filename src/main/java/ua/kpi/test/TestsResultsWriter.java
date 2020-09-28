@@ -3,6 +3,7 @@ package ua.kpi.test;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import ua.kpi.generators.*;
+import ua.kpi.generators.impl.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
