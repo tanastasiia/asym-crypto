@@ -1,9 +1,10 @@
-package ua.kpi.test;
+package ua.kpi;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import ua.kpi.generators.*;
 import ua.kpi.generators.impl.*;
+import ua.kpi.tests.BytesSequenceTests;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -1,7 +1,5 @@
 package ua.kpi.generators.util;
 
-import java.math.BigInteger;
-
 public class LFSR {
 
     /**

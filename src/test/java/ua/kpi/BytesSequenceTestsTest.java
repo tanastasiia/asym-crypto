@@ -3,7 +3,7 @@ package ua.kpi;
 import org.junit.Test;
 import ua.kpi.generators.*;
 import ua.kpi.generators.impl.*;
-import ua.kpi.test.BytesSequenceTests;
+import ua.kpi.tests.BytesSequenceTests;
 
 import java.util.Arrays;
 import java.util.List;

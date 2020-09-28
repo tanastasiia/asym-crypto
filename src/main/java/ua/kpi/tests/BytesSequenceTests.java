@@ -1,4 +1,4 @@
-package ua.kpi.test;
+package ua.kpi.tests;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;

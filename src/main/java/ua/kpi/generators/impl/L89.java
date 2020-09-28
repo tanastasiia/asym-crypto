@@ -19,7 +19,7 @@ public class L89 implements Generator {
         for (int i = 0; i < byteLength; i++) {
             int bytei = 0;
             for (int j = 0; j < 8; j++) {
-                bytei += L.pop(state) << j;
+                bytei += L.getBit(state) << j;
                 state = L.nextState(state);
             }
             bytes[i] = bytei;
