@@ -1,10 +1,10 @@
-package ua.kpi;
+package ua.kpi.lab1;
 
 import org.junit.Test;
-import ua.kpi.generators.*;
-import ua.kpi.generators.impl.*;
-import ua.kpi.generators.BBS;
-import ua.kpi.generators.BM;
+import ua.kpi.lab1.generators.*;
+import ua.kpi.lab1.generators.impl.*;
+import ua.kpi.lab1.generators.BBS;
+import ua.kpi.lab1.generators.BM;
 
 import java.util.Arrays;
 

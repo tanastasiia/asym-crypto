@@ -1,4 +1,4 @@
-package ua.kpi.generators;
+package ua.kpi.lab1.generators;
 
 public interface Generator {
 

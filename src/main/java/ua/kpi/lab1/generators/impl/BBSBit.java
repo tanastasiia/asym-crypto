@@ -1,7 +1,7 @@
-package ua.kpi.generators.impl;
+package ua.kpi.lab1.generators.impl;
 
-import ua.kpi.generators.BBS;
-import ua.kpi.generators.util.Util;
+import ua.kpi.lab1.generators.BBS;
+import ua.kpi.lab1.generators.util.Util;
 
 import java.math.BigInteger;
 

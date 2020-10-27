@@ -1,12 +1,14 @@
 package ua.kpi;
 
+import ua.kpi.lab1.TestsResultsWriter;
+
 import java.time.LocalTime;
 
 
 public class App {
     public static void main(String[] args) {
 
-        int bytesLen = 1<<18;
+        int bytesLen = 160_000;
 
         System.out.println("Sequence length: " + bytesLen + " bytes");
         System.out.println("Started at: " + LocalTime.now() + "\n");

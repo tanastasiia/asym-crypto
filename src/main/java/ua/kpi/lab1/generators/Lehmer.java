@@ -1,6 +1,4 @@
-package ua.kpi.generators;
-
-import ua.kpi.generators.Generator;
+package ua.kpi.lab1.generators;
 
 public abstract class Lehmer implements Generator {
 
