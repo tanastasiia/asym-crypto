@@ -1,8 +1,8 @@
-package ua.kpi.generators.impl;
+package ua.kpi.lab1.generators.impl;
 
-import ua.kpi.generators.Generator;
-import ua.kpi.generators.util.LFSRBigInteger;
-import ua.kpi.generators.util.Util;
+import ua.kpi.lab1.generators.Generator;
+import ua.kpi.lab1.generators.util.LFSRBigInteger;
+import ua.kpi.lab1.generators.util.Util;
 
 import java.math.BigInteger;
 
@@ -19,7 +19,7 @@ public class L89 implements Generator {
         for (int i = 0; i < byteLength; i++) {
             int bytei = 0;
             for (int j = 0; j < 8; j++) {
-                bytei += L.pop(state) << j;
+                bytei += L.getBit(state) << j;
                 state = L.nextState(state);
             }
             bytes[i] = bytei;

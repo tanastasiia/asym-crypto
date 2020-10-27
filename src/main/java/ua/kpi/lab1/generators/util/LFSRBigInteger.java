@@ -1,4 +1,4 @@
-package ua.kpi.generators.util;
+package ua.kpi.lab1.generators.util;
 
 import java.math.BigInteger;
 
@@ -21,7 +21,7 @@ public class LFSRBigInteger {
      * @param state current state
      * @return generated bit
      */
-    public int pop(BigInteger state) {
+    public int getBit(BigInteger state) {
         return state.testBit(0) ? 1 : 0;
     }
 

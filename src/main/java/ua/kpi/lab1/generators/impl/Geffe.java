@@ -1,14 +1,14 @@
-package ua.kpi.generators.impl;
+package ua.kpi.lab1.generators.impl;
 
-import ua.kpi.generators.Generator;
-import ua.kpi.generators.util.LFSR;
-import ua.kpi.generators.util.Util;
+import ua.kpi.lab1.generators.Generator;
+import ua.kpi.lab1.generators.util.LFSR;
+import ua.kpi.lab1.generators.util.Util;
 
 public class Geffe implements Generator {
 
-    private final LFSR L1 = new LFSR(11, Long.parseLong("101"));
-    private final LFSR L2 = new LFSR(9, Long.parseLong("11011"));
-    private final LFSR L3 = new LFSR(10, Long.parseLong("1001"));
+    private final LFSR L1 = new LFSR(11, 0b101L);
+    private final LFSR L2 = new LFSR(9, 0b11011L);
+    private final LFSR L3 = new LFSR(10, 0b1001L);
 
     @Override
     public int[] generate(int byteLength) {

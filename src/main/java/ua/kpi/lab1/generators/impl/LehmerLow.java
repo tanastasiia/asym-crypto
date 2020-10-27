@@ -1,7 +1,7 @@
-package ua.kpi.generators.impl;
+package ua.kpi.lab1.generators.impl;
 
-import ua.kpi.generators.Lehmer;
-import ua.kpi.generators.util.Util;
+import ua.kpi.lab1.generators.Lehmer;
+import ua.kpi.lab1.generators.util.Util;
 
 public class LehmerLow extends Lehmer {
 

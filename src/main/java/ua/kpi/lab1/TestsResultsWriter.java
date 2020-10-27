@@ -1,9 +1,10 @@
-package ua.kpi.test;
+package ua.kpi.lab1;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import ua.kpi.generators.*;
-import ua.kpi.generators.impl.*;
+import ua.kpi.lab1.generators.*;
+import ua.kpi.lab1.generators.impl.*;
+import ua.kpi.lab1.tests.BytesSequenceTests;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class TestsResultsWriter {
 
     private final double[] alpha_quantiles = {2.3263478740408416, 1.6448536269514724, 1.2815515655446008};
     private final double[] alphas = {0.01, 0.05, 0.1};
+    private final String  outputFile ="files/tests_results.csv";
 
     static {
         Locale.setDefault(Locale.ENGLISH);
@@ -59,13 +61,13 @@ public class TestsResultsWriter {
                 testsResults[9] = String.format("%.2f", test3Res);
 
                 for (int i = 0; i < alpha_quantiles.length; i++) {
-                    double hi1 = tests.chiSquared1Alpha.apply(alpha_quantiles[i]);
-                    double hi2 = tests.chiSquared2Alpha.apply(alpha_quantiles[i]);
-                    double hi3 = tests.chiSquared3Alpha.apply(alpha_quantiles[i]);
+                    double chi1 = tests.chiSquared1Alpha.apply(alpha_quantiles[i]);
+                    double chi2 = tests.chiSquared2Alpha.apply(alpha_quantiles[i]);
+                    double chi3 = tests.chiSquared3Alpha.apply(alpha_quantiles[i]);
 
-                    testsResults[i + 2] = String.format("%.2f", hi1) + isPassedString(test1Res <= hi1);
-                    testsResults[alpha_quantiles.length + i + 3] = String.format("%.2f", hi2) + isPassedString(test2Res <= hi2);
-                    testsResults[2 * alpha_quantiles.length + i + 4] = String.format("%.2f", hi3) + isPassedString(test3Res <= hi3);
+                    testsResults[i + 2] = String.format("%.2f", chi1) + isPassedString(test1Res <= chi1);
+                    testsResults[alpha_quantiles.length + i + 3] = String.format("%.2f", chi2) + isPassedString(test2Res <= chi2);
+                    testsResults[2 * alpha_quantiles.length + i + 4] = String.format("%.2f", chi3) + isPassedString(test3Res <= chi3);
                 }
 
                 System.out.println(gen.getName() + ": TESTED");
@@ -73,7 +75,7 @@ public class TestsResultsWriter {
             }));
         }
 
-        try (FileWriter out = new FileWriter("files/tests_results.csv");
+        try (FileWriter out = new FileWriter(outputFile);
              CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(headers))) {
             for (Future<String[]> genRes : genTestsResults) {
                 printer.printRecord((Object[]) genRes.get());
