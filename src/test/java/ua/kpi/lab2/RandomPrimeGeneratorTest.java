@@ -1,17 +1,19 @@
 package ua.kpi.lab2;
 
 import org.junit.Test;
+
+import java.math.BigInteger;
+
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class RandomPrimeGeneratorTest {
-    @Test
-    public void millerRabinRandom(){
-        //generate compare miller rabin with isProbablePrime from BigInteger in cycle for 100 times
-    }
+
+    RandomPrimeGenerator primeGen = new RandomPrimeGenerator();
 
     @Test
-    public void millerRabinPrimeTrue(){
-        //google prime number(s) and test
-        //use assertTrue() from junit
+    public void generatePrime(){
+        BigInteger p = primeGen.generatePrime(50);
+        assertTrue(p.isProbablePrime(10));
     }
 }
