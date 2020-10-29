@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class MillerRabinPrimalityTest {
-    private boolean True;
-    private boolean False;
+
     private final int k = 50;
     public boolean test(BigInteger a) {
         BigInteger TWO = BigInteger.valueOf(2);
@@ -19,20 +18,20 @@ public class MillerRabinPrimalityTest {
 
         if (a.compareTo(TWO) == 0 | a.compareTo(THREE) == 0)
         {
-            return True;
+            return true;
         }
-        if (a.compareTo(TWO) == -1 | a.mod(TWO) == ZERO)
+        if (a.compareTo(TWO) < 0 | a.mod(TWO).equals(ZERO))
         {
-            return False;
+            return false;
         }
 
         BigInteger t = a.subtract(ONE);
 
         int s = 0;
 
-        while (t.mod(TWO) == ZERO)
+        while (t.mod(TWO).equals(ZERO))
         {
-            t.divide(TWO);
+            t = t.divide(TWO);
             s += 1;
         }
 
@@ -48,7 +47,7 @@ public class MillerRabinPrimalityTest {
                 x = x.modPow(TWO, a);
                 if (x.equals(ONE))
                 {
-                    return False;
+                    return false;
                 }
                 if (x.equals(a.subtract((ONE))))
                 {
@@ -56,11 +55,11 @@ public class MillerRabinPrimalityTest {
                 }
             }
             if (r == s) {
-                return False;
+                return false;
             }
-            return True;
+            return true;
         }
-        return True;
+        return true;
     }
 }
 
