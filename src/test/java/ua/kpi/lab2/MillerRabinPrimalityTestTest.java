@@ -20,7 +20,7 @@ public class MillerRabinPrimalityTestTest {
     @Test
     public void millerRabinRandomFalse2() {
         BigInteger n = (new BigInteger("8683317618811886495518194401279999999", 10))
-                .multiply(new BigInteger("4125636888562548868221559797461449 ", 10));
+                .multiply(new BigInteger("4125636888562548868221559797461449", 10));
         assertFalse(mrTest.test(n));
     }
 
@@ -32,13 +32,14 @@ public class MillerRabinPrimalityTestTest {
 
     @Test
     public void millerRabinPrimeTrue2() {
-        BigInteger prime = new BigInteger("8683317618811886495518194401279999999 ", 10);
+        BigInteger prime = new BigInteger("8683317618811886495518194401279999999", 10);
         assertTrue(mrTest.test(prime));
     }
 
     @Test
     public void millerRabinPrimeTrue3() {
-        BigInteger prime = new BigInteger("4125636888562548868221559797461449 ", 10);
+        BigInteger prime = new BigInteger("4125636888562548868221559797461449", 10);
         assertTrue(mrTest.test(prime));
     }
+
 }
