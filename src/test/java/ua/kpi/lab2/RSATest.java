@@ -164,7 +164,8 @@ public class RSATest {
         System.out.println("M = " + m.toString(16));
         System.out.println("N = " + alice.getPublicKeyN().toString(16));
         System.out.println("E = " + alice.getPublicKeyE().toString(16));
-        System.out.println(alice.sendKey(m, server));
+        RSA.SignedMsg sent = alice.sendKey(m, server);
+        System.out.println(sent);
     }
 
 }
