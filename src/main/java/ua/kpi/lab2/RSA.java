@@ -94,14 +94,14 @@ public class RSA {
         return ms.getM().equals(ms.getS().modPow(sender.getPublicKeyE(), sender.getPublicKeyN()));
     }
 
-    public SignedMsg send(BigInteger k, RSA receiver) {
+    public SignedMsg sendKey(BigInteger k, RSA receiver) {
         BigInteger k1 = encrypt(k, receiver);
         BigInteger s = getSignedMessage(k);
         BigInteger s1 = encrypt(s, receiver);
         return new SignedMsg(k1, s1);
     }
 
-    public BigInteger receive(SignedMsg sm, RSA sender) throws VerificationException {
+    public BigInteger receiveKey(SignedMsg sm, RSA sender) throws VerificationException {
         BigInteger k = decrypt(sm.getM());
         BigInteger s = decrypt(sm.getS());
         if (verify(new SignedMsg(k, s), sender)) {

@@ -110,10 +110,28 @@ public class RSATest {
         bob.generateKeyPair();
 
         BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
-        RSA.SignedMsg sent = bob.send(m, alice);
+        RSA.SignedMsg sent = bob.sendKey(m, alice);
 
         System.out.println(sent);
-        System.out.println(alice.receive(sent, bob));
+        System.out.println(alice.receiveKey(sent, bob));
+    }
+
+    @Test(expected = RSA.VerificationException.class)
+    public void testSendReceiveVerExcMocked() throws RSA.VerificationException {
+        when(rpGenAlice.generatePrime(anyInt())).thenReturn(prime1, prime2);
+        when(rpGenBob.generatePrime(anyInt())).thenReturn(prime3, prime4);
+        when(rpGenEve.generatePrime(anyInt())).thenReturn(prime1, prime3);
+
+        RSA alice = new RSA(rpGenAlice, 16);
+        RSA bob = new RSA(rpGenBob, 16);
+        RSA eve = new RSA(rpGenEve, 16);
+        alice.generateKeyPair();
+        bob.generateKeyPair();
+        eve.generateKeyPair();
+
+        BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
+        RSA.SignedMsg sent = eve.sendKey(m, alice);
+        alice.receiveKey(sent, bob);
     }
 
     @Test
@@ -129,7 +147,7 @@ public class RSATest {
         RSA.SignedMsg sm = new RSA.SignedMsg(
                 new BigInteger("03A26306F93CD650E19EA02FA539346B837700CF49BA0C5E19DEF6D32F4E", 16),
                 new BigInteger("01780C448CEF02AB9FECB1AB5C301D771726A906E0DEF585F38435DA71BD", 16));
-        System.out.println(alice.receive(sm, server).toString(16));
+        System.out.println(alice.receiveKey(sm, server).toString(16));
     }
 
     //msg correct but verification fails
@@ -146,7 +164,7 @@ public class RSATest {
         System.out.println("M = " + m.toString(16));
         System.out.println("N = " + alice.getPublicKeyN().toString(16));
         System.out.println("E = " + alice.getPublicKeyE().toString(16));
-        System.out.println(alice.send(m, server));
+        System.out.println(alice.sendKey(m, server));
     }
 
 }
