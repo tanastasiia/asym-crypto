@@ -41,5 +41,4 @@ public class MillerRabinPrimalityTestTest {
         BigInteger prime = new BigInteger("4125636888562548868221559797461449", 10);
         assertTrue(mrTest.test(prime));
     }
-
 }
