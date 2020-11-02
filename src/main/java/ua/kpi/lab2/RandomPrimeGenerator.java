@@ -9,13 +9,13 @@ public class RandomPrimeGenerator {
 
     private Generator gen = new L89();
     private final MillerRabinPrimalityTest mrTest = new MillerRabinPrimalityTest();
-    private Object MillerRabinPrimalityTest;
 
     public RandomPrimeGenerator(Generator gen) {
         this.gen = gen;
     }
 
-    public RandomPrimeGenerator(){}
+    public RandomPrimeGenerator() {
+    }
 
     public BigInteger generatePrime(int byteLength) {
         BigInteger TWO = BigInteger.valueOf(2);
@@ -26,11 +26,10 @@ public class RandomPrimeGenerator {
             b[i] = (byte) generate[i];
         }
 
-        BigInteger m = new BigInteger(b);
+        BigInteger m = new BigInteger(b).abs();
 
-        if(m.mod(TWO).equals(BigInteger.ZERO))
-        {
-            m=m.add(BigInteger.ONE);
+        if (m.mod(TWO).equals(BigInteger.ZERO)) {
+            m = m.add(BigInteger.ONE);
         }
         while (!mrTest.test(m)) {
             m = m.add(TWO);

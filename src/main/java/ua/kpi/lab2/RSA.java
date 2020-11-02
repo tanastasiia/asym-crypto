@@ -17,6 +17,10 @@ public class RSA {
     private int primeLengthBytes = 32;
     private final BigInteger e = BigInteger.valueOf((1L << 16) + 1);
 
+    public RSA(int primeLengthBytes) {
+        this.primeLengthBytes = primeLengthBytes;
+    }
+
     public RSA() {
     }
 

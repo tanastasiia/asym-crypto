@@ -28,14 +28,19 @@ public class RSATest {
     @Test
     public void testPrintMocked() {
         when(rpGenAlice.generatePrime(anyInt())).thenReturn(prime1, prime2);
+        when(rpGenBob.generatePrime(anyInt())).thenReturn(prime3, prime4);
 
         RSA alice = new RSA(rpGenAlice, 16);
-        BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
+        RSA bob = new RSA(rpGenBob, 16);
         alice.generateKeyPair();
+        bob.generateKeyPair();
+
+        BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
+
         System.out.println("E = " + alice.getPublicKeyE().toString(16));
         System.out.println("N = " + alice.getPublicKeyN().toString(16));
         System.out.println("M = " + m.toString(16));
-        BigInteger encrypted = alice.encrypt(m, alice);
+        BigInteger encrypted = bob.encrypt(m, alice);
         System.out.println("encrypted: " + encrypted.toString(16));
         System.out.println("decrypted: " + alice.decrypt(encrypted).toString(16));
         System.out.println("sign: " + alice.getSignedMessage(m).toString(16));
@@ -85,6 +90,18 @@ public class RSATest {
 
         BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
         assertFalse(bob.verify(eve.sign(m), alice));
+    }
+
+    @Test
+    public void testServerDecrypt() {
+        when(server.getPublicKeyN()).thenReturn(serverN);
+        when(server.getPublicKeyE()).thenReturn(serverE);
+        when(rpGenAlice.generatePrime(anyInt())).thenReturn(prime1, prime2);
+        RSA alice = new RSA(rpGenAlice, 16);
+        alice.generateKeyPair();
+
+        BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
+        System.out.println(alice.encrypt(m, server).toString(16));
     }
 
     @Test

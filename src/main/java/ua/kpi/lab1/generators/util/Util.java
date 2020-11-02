@@ -41,4 +41,12 @@ public class Util {
         Files.write(Paths.get(outputFile), str.getBytes());
 
     }
+
+    public static BigInteger intArrayToBigInteger(int[] arr){
+        byte[] bytes = new byte[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            bytes[i] = (byte) arr[i];
+        }
+        return new BigInteger(bytes).abs();
+    }
 }

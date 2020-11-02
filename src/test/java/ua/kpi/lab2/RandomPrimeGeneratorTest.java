@@ -12,7 +12,8 @@ public class RandomPrimeGeneratorTest {
 
     @Test
     public void generatePrime(){
-        BigInteger p = primeGen.generatePrime(32);
-        assertTrue(p.isProbablePrime(10));
+        BigInteger p = primeGen.generatePrime(34);
+        System.out.println("len: " + p.bitLength() + "\np = " + p.toString(10));
+        assertTrue(p.isProbablePrime(20));
     }
 }
