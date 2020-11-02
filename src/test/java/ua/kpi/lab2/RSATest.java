@@ -1,12 +1,16 @@
 package ua.kpi.lab2;
 
-import org.junit.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
-
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
@@ -133,7 +137,7 @@ public class RSATest {
         System.out.println(alice.receiveKey(sent, bob));
     }
 
-    @Test(expected = RSA.VerificationException.class)
+    @Test
     public void testSendReceiveVerExcMocked() throws RSA.VerificationException {
         when(rpGenAlice.generatePrime(anyInt())).thenReturn(prime1, prime2);
         when(rpGenBob.generatePrime(anyInt())).thenReturn(prime3, prime4);
@@ -148,7 +152,7 @@ public class RSATest {
 
         BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
         RSA.SignedMsg sent = eve.sendKey(m, alice);
-        alice.receiveKey(sent, bob);
+        assertThrows(RSA.VerificationException.class, (Executable) alice.receiveKey(sent, bob));
     }
 
     @Test

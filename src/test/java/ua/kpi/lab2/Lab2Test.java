@@ -3,40 +3,30 @@ package ua.kpi.lab2;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
-import ua.kpi.lab1.generators.Generator;
-import ua.kpi.lab1.generators.impl.L89;
 import ua.kpi.lab1.generators.util.Util;
-
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import static org.mockito.Mockito.when;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class Lab2Test {
 
     RSA server = Mockito.mock(RSA.class);
-
-    BigInteger serverE;
-    BigInteger serverN;
-
     ObjectMapper mapper = new ObjectMapper();
 
     String serverUrl = "http://asymcryptwebservice.appspot.com/rsa/";
@@ -49,6 +39,7 @@ public class Lab2Test {
     String receiveKeyUrl = serverUrl + "receiveKey";
 
     BasicHttpContext httpContext = new BasicHttpContext();
+    CloseableHttpClient httpClient = HttpClients.createDefault();
 
     int primeSizeBytes = 32;
 
@@ -57,8 +48,13 @@ public class Lab2Test {
 
     BigInteger m;
 
-    @Before
-    public void serverInit() throws IOException {
+    public void messageGeneration() {
+        int keySize = alice.getPublicKeyN().bitLength();
+        m = Util.randomBigInteger(BigInteger.ONE, BigInteger.ONE.shiftLeft(keySize - 1));
+    }
+
+    @BeforeEach
+    public void init() throws IOException {
 
         alice.generateKeyPair();
 
@@ -69,10 +65,10 @@ public class Lab2Test {
         System.out.println("alice E = " + alice.getPublicKeyE().toString(16).toUpperCase());
         System.out.println("alice M = " + m.toString(16).toUpperCase() + " (" + m.bitLength() + " bits)");
 
-        JsonNode serverKeys = getRequestJson(serverKeyUrl + "?keySize=" + keySize);
+        JsonNode json = getRequestJson(serverKeyUrl + "?keySize=" + keySize);
 
-        serverN = new BigInteger(serverKeys.get("modulus").asText(), 16);
-        serverE = new BigInteger(serverKeys.get("publicExponent").asText(), 16);
+        BigInteger serverN = new BigInteger(json.get("modulus").asText(), 16);
+        BigInteger serverE = new BigInteger(json.get("publicExponent").asText(), 16);
 
         when(server.getPublicKeyN()).thenReturn(serverN);
         when(server.getPublicKeyE()).thenReturn(serverE);
@@ -154,6 +150,12 @@ public class Lab2Test {
 
     @Test
     public void receiveKeyTest() throws IOException {
+
+        while (alice.getPublicKeyN().compareTo(server.getPublicKeyN()) > 0) {
+            alice.generateKeyPair();
+            messageGeneration();
+        }
+
         RSA.SignedMsg sm = alice.sendKey(m, server);
         System.out.println("Encrypted key:" + sm.getM().toString(16).toUpperCase() + " (" + sm.getM().bitLength() + " bits)");
         System.out.println("Signature:" + sm.getS().toString(16).toUpperCase() + " (" + sm.getS().bitLength() + " bits)");
@@ -164,10 +166,6 @@ public class Lab2Test {
             put("modulus", alice.getPublicKeyN().toString(16));
             put("publicExponent", alice.getPublicKeyE().toString(16));
         }}));
-
-        System.out.println("alice - server = " + alice.getPublicKeyN().compareTo(server.getPublicKeyN()));
-        System.out.println("sm.getM() - server = " + sm.getM().compareTo(server.getPublicKeyN()));
-        System.out.println("sm.getS() - server = " + sm.getS().compareTo(server.getPublicKeyN()));
 
         BigInteger receivedKey = new BigInteger(json.get("key").asText(), 16);
         boolean isVerified = json.get("verified").asBoolean();
@@ -183,14 +181,10 @@ public class Lab2Test {
     }
 
     public JsonNode getRequestJson(String url) throws IOException {
-        System.out.println("\nGET URL: " + url);
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet request = new HttpGet(url);
-
-        try (CloseableHttpResponse response = httpClient.execute(request, httpContext)) {
-            HttpEntity entity = response.getEntity();
-            String json = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-            System.out.println("JSON: " + json + "\n");
+        System.out.println("\nGET " + url);
+        try (CloseableHttpResponse response = httpClient.execute(new HttpGet(url), httpContext)) {
+            String json = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+            System.out.println("RESPONSE: " + json + "\n");
             return mapper.readValue(json, JsonNode.class);
         }
     }

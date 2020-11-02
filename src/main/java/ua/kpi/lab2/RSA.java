@@ -70,6 +70,13 @@ public class RSA {
         p = randPrimeGen.generatePrime(primeLengthBytes);
         q = randPrimeGen.generatePrime(primeLengthBytes);
 
+        if(!p.isProbablePrime(20)){
+            throw new RuntimeException("not prime p " + p.toString(16));
+        }
+        if(!q.isProbablePrime(20)){
+            throw new RuntimeException("not prime q " + q.toString(16));
+        }
+
         BigInteger n = p.multiply(q);
         BigInteger phiN = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
 
