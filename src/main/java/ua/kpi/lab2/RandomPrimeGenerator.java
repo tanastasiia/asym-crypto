@@ -19,7 +19,6 @@ public class RandomPrimeGenerator {
 
     public BigInteger generatePrime(int byteLength) {
         BigInteger TWO = BigInteger.valueOf(2);
-
         int[] generate = gen.generate(byteLength);
         byte[] b = new byte[byteLength];
 
@@ -28,6 +27,11 @@ public class RandomPrimeGenerator {
         }
 
         BigInteger m = new BigInteger(b);
+
+        if(m.mod(TWO).equals(BigInteger.ZERO))
+        {
+            m=m.add(BigInteger.ONE);
+        }
         while (!mrTest.test(m)) {
             m = m.add(TWO);
         }
