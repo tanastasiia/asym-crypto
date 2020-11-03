@@ -1,14 +1,16 @@
 package ua.kpi.lab1;
 
-import org.junit.Test;
 import ua.kpi.lab1.generators.*;
 import ua.kpi.lab1.generators.impl.*;
 import ua.kpi.lab1.generators.BBS;
 import ua.kpi.lab1.generators.BM;
 
 import java.util.Arrays;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class GeneratorsTest {
 
