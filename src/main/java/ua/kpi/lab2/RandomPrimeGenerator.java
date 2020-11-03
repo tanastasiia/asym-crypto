@@ -7,26 +7,22 @@ import java.math.BigInteger;
 
 public class RandomPrimeGenerator {
 
-    private Generator gen = new L89();
+    private final Generator gen = new L89();
     private final MillerRabinPrimalityTest mrTest = new MillerRabinPrimalityTest();
-
-    public RandomPrimeGenerator(Generator gen) {
-        this.gen = gen;
-    }
 
     public RandomPrimeGenerator() {
     }
 
     public BigInteger generatePrime(int byteLength) {
         BigInteger TWO = BigInteger.valueOf(2);
-        int[] generate = gen.generate(byteLength);
-        byte[] b = new byte[byteLength];
+        int[] generatedSeq = gen.generate(byteLength);
+        byte[] bytes = new byte[byteLength];
 
-        for (int i = 0; i < generate.length; i++) {
-            b[i] = (byte) generate[i];
+        for (int i = 0; i < generatedSeq.length; i++) {
+            bytes[i] = (byte) generatedSeq[i];
         }
 
-        BigInteger m = new BigInteger(b).abs();
+        BigInteger m = new BigInteger(bytes).abs();
 
         if (m.mod(TWO).equals(BigInteger.ZERO)) {
             m = m.add(BigInteger.ONE);

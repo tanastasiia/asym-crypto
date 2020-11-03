@@ -3,9 +3,7 @@ package ua.kpi.lab2;
 import java.math.BigInteger;
 
 public class RSA {
-    /*
-    GenerateKeyPair(), Encrypt(), Decrypt(), Sign(), Verify(), SendKey(), ReceiveKey().
-    */
+
     private BigInteger publicKeyN;
     private BigInteger publicKeyE;
 
@@ -17,11 +15,11 @@ public class RSA {
     private int primeLengthBytes = 32;
     private final BigInteger e = BigInteger.valueOf((1L << 16) + 1);
 
-    public RSA(int primeLengthBytes) {
-        this.primeLengthBytes = primeLengthBytes;
+    public RSA() {
     }
 
-    public RSA() {
+    public RSA(int primeLengthBytes) {
+        this.primeLengthBytes = primeLengthBytes;
     }
 
     public RSA(RandomPrimeGenerator randPrimeGen, int primeLengthBytes) {
@@ -70,13 +68,6 @@ public class RSA {
         p = randPrimeGen.generatePrime(primeLengthBytes);
         q = randPrimeGen.generatePrime(primeLengthBytes);
 
-        if(!p.isProbablePrime(20)){
-            throw new RuntimeException("not prime p " + p.toString(16));
-        }
-        if(!q.isProbablePrime(20)){
-            throw new RuntimeException("not prime q " + q.toString(16));
-        }
-
         BigInteger n = p.multiply(q);
         BigInteger phiN = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
 
@@ -93,11 +84,7 @@ public class RSA {
         return c.modPow(privateKeyD, publicKeyN);
     }
 
-    public SignedMsg sign(BigInteger m) {
-        return new SignedMsg(m, m.modPow(privateKeyD, publicKeyN));
-    }
-
-    public BigInteger getSignedMessage(BigInteger m) {
+    public BigInteger sign(BigInteger m) {
         return m.modPow(privateKeyD, publicKeyN);
     }
 
@@ -107,7 +94,7 @@ public class RSA {
 
     public SignedMsg sendKey(BigInteger k, RSA receiver) {
         BigInteger k1 = encrypt(k, receiver);
-        BigInteger s = getSignedMessage(k);
+        BigInteger s = sign(k);
         BigInteger s1 = encrypt(s, receiver);
         return new SignedMsg(k1, s1);
     }

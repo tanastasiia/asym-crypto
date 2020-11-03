@@ -2,7 +2,6 @@ package ua.kpi.lab2;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -48,9 +47,24 @@ public class Lab2Test {
 
     BigInteger m;
 
-    public void messageGeneration() {
+    public void generateMessage() {
         int keySize = alice.getPublicKeyN().bitLength();
         m = Util.randomBigInteger(BigInteger.ONE, BigInteger.ONE.shiftLeft(keySize - 1));
+    }
+
+    public String formParamString(Map<String, String> params) {
+        StringBuffer sb = new StringBuffer("?");
+        params.forEach((key, value) -> sb.append(key).append("=").append(value).append("&"));
+        return sb.substring(0, sb.length() - 1);
+    }
+
+    public JsonNode getRequestJson(String url) throws IOException {
+        System.out.println("\nGET " + url);
+        try (CloseableHttpResponse response = httpClient.execute(new HttpGet(url), httpContext)) {
+            String json = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+            System.out.println("RESPONSE: " + json + "\n");
+            return mapper.readValue(json, JsonNode.class);
+        }
     }
 
     @BeforeEach
@@ -122,7 +136,7 @@ public class Lab2Test {
     @Test
     public void verificationTest() throws IOException {
 
-        BigInteger signature = alice.getSignedMessage(m);
+        BigInteger signature = alice.sign(m);
 
         JsonNode json = getRequestJson(verifyUrl + formParamString(new HashMap<String, String>() {{
             put("modulus", alice.getPublicKeyN().toString(16));
@@ -153,7 +167,7 @@ public class Lab2Test {
 
         while (alice.getPublicKeyN().compareTo(server.getPublicKeyN()) > 0) {
             alice.generateKeyPair();
-            messageGeneration();
+            generateMessage();
         }
 
         RSA.SignedMsg sm = alice.sendKey(m, server);
@@ -172,20 +186,5 @@ public class Lab2Test {
 
         assertEquals(m, receivedKey);
         assertTrue(isVerified);
-    }
-
-    public String formParamString(Map<String, String> params) {
-        StringBuffer sb = new StringBuffer("?");
-        params.forEach((key, value) -> sb.append(key).append("=").append(value).append("&"));
-        return sb.substring(0, sb.length() - 1);
-    }
-
-    public JsonNode getRequestJson(String url) throws IOException {
-        System.out.println("\nGET " + url);
-        try (CloseableHttpResponse response = httpClient.execute(new HttpGet(url), httpContext)) {
-            String json = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-            System.out.println("RESPONSE: " + json + "\n");
-            return mapper.readValue(json, JsonNode.class);
-        }
     }
 }

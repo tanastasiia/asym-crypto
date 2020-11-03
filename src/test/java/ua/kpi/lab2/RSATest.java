@@ -7,10 +7,7 @@ import java.math.BigInteger;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +44,7 @@ public class RSATest {
         BigInteger encrypted = bob.encrypt(m, alice);
         System.out.println("encrypted: " + encrypted.toString(16));
         System.out.println("decrypted: " + alice.decrypt(encrypted).toString(16));
-        System.out.println("sign: " + alice.getSignedMessage(m).toString(16));
+        System.out.println("sign: " + alice.sign(m).toString(16));
     }
 
     @Test
@@ -76,7 +73,7 @@ public class RSATest {
         bob.generateKeyPair();
 
         BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
-        assertTrue(bob.verify(alice.sign(m), alice));
+        assertTrue(bob.verify(new RSA.SignedMsg(m, alice.sign(m)), alice));
     }
 
     @Test
@@ -93,7 +90,7 @@ public class RSATest {
         eve.generateKeyPair();
 
         BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
-        assertFalse(bob.verify(eve.sign(m), alice));
+        assertFalse(bob.verify(new RSA.SignedMsg(m, eve.sign(m)), alice));
     }
 
     @Test
@@ -138,7 +135,7 @@ public class RSATest {
     }
 
     @Test
-    public void testSendReceiveVerExcMocked() throws RSA.VerificationException {
+    public void testSendReceiveVerExcMocked() {
         when(rpGenAlice.generatePrime(anyInt())).thenReturn(prime1, prime2);
         when(rpGenBob.generatePrime(anyInt())).thenReturn(prime3, prime4);
         when(rpGenEve.generatePrime(anyInt())).thenReturn(prime1, prime3);
@@ -152,7 +149,7 @@ public class RSATest {
 
         BigInteger m = new BigInteger("b90a9afcde6536209aafba2edf8", 16);
         RSA.SignedMsg sent = eve.sendKey(m, alice);
-        assertThrows(RSA.VerificationException.class, (Executable) alice.receiveKey(sent, bob));
+        assertThrows(RSA.VerificationException.class, () -> alice.receiveKey(sent, bob));
     }
 
     @Test
@@ -171,7 +168,6 @@ public class RSATest {
         System.out.println(alice.receiveKey(sm, server).toString(16));
     }
 
-    //msg correct but verification fails
     @Test
     public void testReceiveServerMocked() {
         when(rpGenAlice.generatePrime(anyInt())).thenReturn(prime1, prime2);
