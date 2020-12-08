@@ -1,8 +1,8 @@
 package ua.kpi.lab1.generators.impl;
 
 import ua.kpi.lab1.generators.Generator;
-import ua.kpi.lab1.generators.util.LFSRBigInteger;
-import ua.kpi.lab1.generators.util.Util;
+import ua.kpi.util.LFSRBigInteger;
+import ua.kpi.util.Util;
 
 import java.math.BigInteger;
 

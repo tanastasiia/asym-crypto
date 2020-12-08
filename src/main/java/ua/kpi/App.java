@@ -6,9 +6,13 @@ import java.time.LocalTime;
 
 
 public class App {
-    public static void main(String[] args) {
 
-        int bytesLen = 160_000;
+    public static void main(String[] args) {
+        lab1();
+    }
+
+    public static void lab1(){
+        int bytesLen = 300_000;
 
         System.out.println("Sequence length: " + bytesLen + " bytes");
         System.out.println("Started at: " + LocalTime.now() + "\n");

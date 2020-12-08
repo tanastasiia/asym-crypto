@@ -1,4 +1,4 @@
-package ua.kpi.lab2;
+package ua.kpi.lab3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,8 +8,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ua.kpi.util.SignedMsg;
 import ua.kpi.util.Util;
@@ -19,39 +20,33 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+public class RabinTest {
 
-public class Lab2Test {
-
-    RSA server = Mockito.mock(RSA.class);
+    Rabin server = Mockito.mock(Rabin.class);
     ObjectMapper mapper = new ObjectMapper();
+    Random random = new Random();
 
-    String serverUrl = "http://asymcryptwebservice.appspot.com/rsa/";
+    String serverUrl = "http://asymcryptwebservice.appspot.com/rabin/";
     String serverKeyUrl = serverUrl + "serverKey";
     String encryptUrl = serverUrl + "encrypt";
     String decryptUrl = serverUrl + "decrypt";
     String signUrl = serverUrl + "sign";
     String verifyUrl = serverUrl + "verify";
-    String sendKeyUrl = serverUrl + "sendKey";
-    String receiveKeyUrl = serverUrl + "receiveKey";
 
     BasicHttpContext httpContext = new BasicHttpContext();
     CloseableHttpClient httpClient = HttpClients.createDefault();
 
     int primeSizeBytes = 32;
 
-    RSA alice = new RSA(primeSizeBytes);
-    RSA bob = new RSA(primeSizeBytes);
+    Rabin alice = new Rabin(primeSizeBytes);
 
     BigInteger m;
-
-    public void generateMessage() {
-        int keySize = alice.getPublicKeyN().bitLength();
-        m = Util.randomBigInteger(BigInteger.ONE, BigInteger.ONE.shiftLeft(keySize - 1));
-    }
 
     public String formParamString(Map<String, String> params) {
         StringBuffer sb = new StringBuffer("?");
@@ -74,49 +69,47 @@ public class Lab2Test {
         alice.generateKeyPair();
 
         int keySize = alice.getPublicKeyN().bitLength();
-        m = Util.randomBigInteger(BigInteger.ONE, BigInteger.ONE.shiftLeft(keySize - 1));
+        m = new BigInteger((Util.byteLength(alice.getPublicKeyN())-11) * 8, random);
 
         System.out.println("alice N = " + alice.getPublicKeyN().toString(16).toUpperCase() + " (" + alice.getPublicKeyN().bitLength() + " bits)");
-        System.out.println("alice E = " + alice.getPublicKeyE().toString(16).toUpperCase());
+        System.out.println("alice B = " + alice.getPublicKeyB().toString(16).toUpperCase() + " (" + alice.getPublicKeyB().bitLength() + " bits)");
         System.out.println("alice M = " + m.toString(16).toUpperCase() + " (" + m.bitLength() + " bits)");
 
         JsonNode json = getRequestJson(serverKeyUrl + "?keySize=" + keySize);
 
         BigInteger serverN = new BigInteger(json.get("modulus").asText(), 16);
-        BigInteger serverE = new BigInteger(json.get("publicExponent").asText(), 16);
+        BigInteger serverB = new BigInteger(json.get("b").asText(), 16);
 
         when(server.getPublicKeyN()).thenReturn(serverN);
-        when(server.getPublicKeyE()).thenReturn(serverE);
+        when(server.getPublicKeyB()).thenReturn(serverB);
 
         System.out.println("server N = " + server.getPublicKeyN().toString(16).toUpperCase() + " (" + server.getPublicKeyN().bitLength() + " bits)");
-        System.out.println("server E = " + server.getPublicKeyE().toString(16).toUpperCase());
+        System.out.println("server B = " + server.getPublicKeyB().toString(16).toUpperCase() + " (" + server.getPublicKeyB().bitLength() + " bits)");
     }
 
     @Test
     public void encryptionTest() throws IOException {
 
-        bob.generateKeyPair();
-
         JsonNode json = getRequestJson(encryptUrl + formParamString(new HashMap<String, String>() {{
             put("modulus", alice.getPublicKeyN().toString(16));
-            put("publicExponent", alice.getPublicKeyE().toString(16));
+            put("b", alice.getPublicKeyB().toString(16));
             put("message", m.toString(16));
         }}));
 
-        BigInteger serverEncryptedForAlice = new BigInteger(json.get("cipherText").asText(), 16);
-        BigInteger bobEncryptedForAlice = bob.encrypt(m, alice);
+        Rabin.CypherText serverEncryptedForAlice =  new Rabin.CypherText(new BigInteger(json.get("cipherText").asText(), 16),
+                        json.get("parity").asInt(), json.get("jacobiSymbol").asInt());
 
-        System.out.println("bobEncryptedForAlice: " + bobEncryptedForAlice.toString(16).toUpperCase());
-
-        assertEquals(serverEncryptedForAlice, bobEncryptedForAlice);
+        assertEquals(m, alice.decrypt(serverEncryptedForAlice));
     }
 
     @Test
     public void decryptionTest() throws IOException {
-        String encryptedForServer = alice.encrypt(m, server).toString(16);
+        Rabin.CypherText encryptedForServer = alice.encrypt(m, server);
 
         JsonNode json = getRequestJson(decryptUrl + formParamString(new HashMap<String, String>() {{
-            put("cipherText", encryptedForServer);
+            put("cipherText", encryptedForServer.getY().toString(16));
+            put("parity", Integer.toString(encryptedForServer.getC1()));
+            put("jacobiSymbol", Integer.toString(encryptedForServer.getC2()));
         }}));
         BigInteger serverDecrypted = new BigInteger(json.get("message").asText(), 16);
 
@@ -141,54 +134,10 @@ public class Lab2Test {
 
         JsonNode json = getRequestJson(verifyUrl + formParamString(new HashMap<String, String>() {{
             put("modulus", alice.getPublicKeyN().toString(16));
-            put("publicExponent", alice.getPublicKeyE().toString(16));
             put("message", m.toString(16));
             put("signature", signature.toString(16));
         }}));
 
         assertTrue(json.get("verified").asBoolean());
     }
-
-    @Test
-    public void sendKeyTest() throws IOException, SignedMsg.VerificationException {
-        JsonNode json = getRequestJson(sendKeyUrl + formParamString(new HashMap<String, String>() {{
-            put("modulus", alice.getPublicKeyN().toString(16));
-            put("publicExponent", alice.getPublicKeyE().toString(16));
-        }}));
-
-        BigInteger key = new BigInteger(json.get("key").asText(), 16);
-        BigInteger signature = new BigInteger(json.get("signature").asText(), 16);
-
-        BigInteger aliceReceivedKey = alice.receiveKey(new SignedMsg(key, signature), server);
-        System.out.println("aliceReceivedKey: " + aliceReceivedKey.toString(16).toUpperCase());
-
-    }
-
-    @Test
-    public void receiveKeyTest() throws IOException {
-
-        while (alice.getPublicKeyN().compareTo(server.getPublicKeyN()) > 0) {
-            alice.generateKeyPair();
-            generateMessage();
-        }
-
-        SignedMsg sm = alice.sendKey(m, server);
-        System.out.println("Encrypted key:" + sm.getM().toString(16).toUpperCase() + " (" + sm.getM().bitLength() + " bits)");
-        System.out.println("Signature:" + sm.getS().toString(16).toUpperCase() + " (" + sm.getS().bitLength() + " bits)");
-
-        JsonNode json = getRequestJson(receiveKeyUrl + formParamString(new HashMap<String, String>() {{
-            put("key", sm.getM().toString(16));
-            put("signature", sm.getS().toString(16));
-            put("modulus", alice.getPublicKeyN().toString(16));
-            put("publicExponent", alice.getPublicKeyE().toString(16));
-        }}));
-
-        BigInteger receivedKey = new BigInteger(json.get("key").asText(), 16);
-        boolean isVerified = json.get("verified").asBoolean();
-
-        assertEquals(m, receivedKey);
-        assertTrue(isVerified);
-    }
-
-
 }

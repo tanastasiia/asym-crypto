@@ -32,4 +32,13 @@ public class RandomPrimeGenerator {
         }
         return m;
     }
+
+    public BigInteger generateBlumPrime(int byteLength) {
+        BigInteger p;
+        do {
+            p = generatePrime(byteLength);
+        } while (!p.subtract(BigInteger.valueOf(3)).mod(BigInteger.valueOf(4)).equals(BigInteger.ZERO));
+        return p;
+    }
+
 }

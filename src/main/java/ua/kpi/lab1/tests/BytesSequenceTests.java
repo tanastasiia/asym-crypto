@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class BytesSequenceTests {
 
-    private final int r = 42;
+    private final int r = 12;
     private final BiFunction<Double, Double, Double> chiSquaredAlpha = (z, l) -> Math.sqrt(2 * l) * z + l;
 
     public Function<Double, Double> chiSquared1Alpha = (z) -> chiSquaredAlpha.apply(z, 255d);

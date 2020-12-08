@@ -1,6 +1,6 @@
 package ua.kpi.lab2;
 
-import ua.kpi.lab1.generators.util.Util;
+import ua.kpi.util.Util;
 
 import java.math.BigInteger;
 

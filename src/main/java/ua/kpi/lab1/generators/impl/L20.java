@@ -1,8 +1,8 @@
 package ua.kpi.lab1.generators.impl;
 
 import ua.kpi.lab1.generators.Generator;
-import ua.kpi.lab1.generators.util.LFSR;
-import ua.kpi.lab1.generators.util.Util;
+import ua.kpi.util.LFSR;
+import ua.kpi.util.Util;
 
 public class L20 implements Generator {
 

@@ -22,7 +22,6 @@ public class Librarian implements Generator {
 
         int[] bytes = new int[byteLength];
 
-
         try (InputStream inputStream = new FileInputStream(filePath)) {
             if (inputStream.available() < byteLength) {
                 throw new RuntimeException("file is too short: only " + inputStream.available() + "bytes");
